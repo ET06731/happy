@@ -17,6 +17,8 @@ import { CodexDiffView } from './CodexDiffView';
 import { AskUserQuestionView } from './AskUserQuestionView';
 import { GeminiEditView } from './GeminiEditView';
 import { GeminiExecuteView } from './GeminiExecuteView';
+import { OpenCodeEditView } from './OpenCodeEditView';
+import { OpenCodeExecuteView } from './OpenCodeExecuteView';
 
 export type ToolViewProps = {
     tool: ToolCall;
@@ -45,6 +47,9 @@ export const toolViewRegistry: Record<string, ToolViewComponent> = {
     // Gemini tools (lowercase)
     edit: GeminiEditView,
     execute: GeminiExecuteView,
+    // OpenCode tools
+    'opencode_Edit': OpenCodeEditView,
+    'opencode_Bash': OpenCodeExecuteView,
 };
 
 export const toolFullViewRegistry: Record<string, ToolViewComponent> = {
@@ -78,3 +83,5 @@ export { TaskView } from './TaskView';
 export { AskUserQuestionView } from './AskUserQuestionView';
 export { GeminiEditView } from './GeminiEditView';
 export { GeminiExecuteView } from './GeminiExecuteView';
+export { OpenCodeEditView } from './OpenCodeEditView';
+export { OpenCodeExecuteView } from './OpenCodeExecuteView';
