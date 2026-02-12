@@ -7,6 +7,8 @@
  */
 
 export { GeminiTransport, geminiTransport } from './GeminiTransport';
+export { OpenCodeTransport } from './OpenCodeTransport';
+
 
 // Future handlers:
 // export { CodexTransport, codexTransport } from './CodexTransport';
