@@ -469,9 +469,9 @@ function NewSessionWizard() {
             // Current agent not available - find first available
             const availableAgent: 'claude' | 'codex' | 'gemini' =
                 cliAvailability.claude === true ? 'claude' :
-                cliAvailability.codex === true ? 'codex' :
-                (cliAvailability.gemini === true && experimentsEnabled) ? 'gemini' :
-                'claude'; // Fallback to claude (will fail at spawn with clear error)
+                    cliAvailability.codex === true ? 'codex' :
+                        (cliAvailability.gemini === true && experimentsEnabled) ? 'gemini' :
+                            'claude'; // Fallback to claude (will fail at spawn with clear error)
 
             console.warn(`[AgentSelection] ${agentType} not available, switching to ${availableAgent}`);
             setAgentType(availableAgent);
@@ -1215,706 +1215,706 @@ function NewSessionWizard() {
                     contentContainerStyle={styles.contentContainer}
                     keyboardShouldPersistTaps="handled"
                 >
-                <View style={[
-                    { paddingHorizontal: screenWidth > 700 ? 16 : 8 }
-                ]}>
                     <View style={[
-                        { maxWidth: layout.maxWidth, flex: 1, width: '100%', alignSelf: 'center' }
+                        { paddingHorizontal: screenWidth > 700 ? 16 : 8 }
                     ]}>
-                        <View ref={profileSectionRef} style={styles.wizardContainer}>
-                            {/* CLI Detection Status Banner - shows after detection completes */}
-                            {selectedMachineId && cliAvailability.timestamp > 0 && selectedMachine && connectionStatus && (
-                                <View style={{
-                                    backgroundColor: theme.colors.surfacePressed,
-                                    borderRadius: 10,
-                                    padding: 10,
-                                    paddingRight: 18,
-                                    marginBottom: 12,
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    gap: STATUS_ITEM_GAP,
-                                }}>
-                                    <Ionicons name="desktop-outline" size={16} color={theme.colors.textSecondary} />
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: STATUS_ITEM_GAP, flexWrap: 'wrap' }}>
-                                        <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                            {selectedMachine.metadata?.displayName || selectedMachine.metadata?.host || 'Machine'}:
-                                        </Text>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                                            <StatusDot
-                                                color={connectionStatus.dotColor}
-                                                isPulsing={connectionStatus.isPulsing}
-                                                size={6}
-                                            />
-                                            <Text style={{ fontSize: 11, color: connectionStatus.color, ...Typography.default() }}>
-                                                {connectionStatus.text}
+                        <View style={[
+                            { maxWidth: layout.maxWidth, flex: 1, width: '100%', alignSelf: 'center' }
+                        ]}>
+                            <View ref={profileSectionRef} style={styles.wizardContainer}>
+                                {/* CLI Detection Status Banner - shows after detection completes */}
+                                {selectedMachineId && cliAvailability.timestamp > 0 && selectedMachine && connectionStatus && (
+                                    <View style={{
+                                        backgroundColor: theme.colors.surfacePressed,
+                                        borderRadius: 10,
+                                        padding: 10,
+                                        paddingRight: 18,
+                                        marginBottom: 12,
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        gap: STATUS_ITEM_GAP,
+                                    }}>
+                                        <Ionicons name="desktop-outline" size={16} color={theme.colors.textSecondary} />
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: STATUS_ITEM_GAP, flexWrap: 'wrap' }}>
+                                            <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                {selectedMachine.metadata?.displayName || selectedMachine.metadata?.host || 'Machine'}:
                                             </Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                                            <Text style={{ fontSize: 11, color: cliAvailability.claude ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
-                                                {cliAvailability.claude ? '✓' : '✗'}
-                                            </Text>
-                                            <Text style={{ fontSize: 11, color: cliAvailability.claude ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
-                                                claude
-                                            </Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                                            <Text style={{ fontSize: 11, color: cliAvailability.codex ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
-                                                {cliAvailability.codex ? '✓' : '✗'}
-                                            </Text>
-                                            <Text style={{ fontSize: 11, color: cliAvailability.codex ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
-                                                codex
-                                            </Text>
-                                        </View>
-                                        {experimentsEnabled && (
                                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                                                <Text style={{ fontSize: 11, color: cliAvailability.gemini ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
-                                                    {cliAvailability.gemini ? '✓' : '✗'}
-                                                </Text>
-                                                <Text style={{ fontSize: 11, color: cliAvailability.gemini ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
-                                                    gemini
+                                                <StatusDot
+                                                    color={connectionStatus.dotColor}
+                                                    isPulsing={connectionStatus.isPulsing}
+                                                    size={6}
+                                                />
+                                                <Text style={{ fontSize: 11, color: connectionStatus.color, ...Typography.default() }}>
+                                                    {connectionStatus.text}
                                                 </Text>
                                             </View>
-                                        )}
-                                    </View>
-                                </View>
-                            )}
-
-                            {/* Section 1: Profile Management */}
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8, marginTop: 12 }}>
-                                <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>1.</Text>
-                                <Ionicons name="person-outline" size={18} color={theme.colors.text} />
-                                <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>Choose AI Profile</Text>
-                            </View>
-                            <Text style={styles.sectionDescription}>
-                                Choose which AI backend runs your session (Claude or Codex). Create custom profiles for alternative APIs.
-                            </Text>
-
-                            {/* Missing CLI Installation Banners */}
-                            {selectedMachineId && cliAvailability.claude === false && !isWarningDismissed('claude') && !hiddenBanners.claude && (
-                                <View style={{
-                                    backgroundColor: theme.colors.box.warning.background,
-                                    borderRadius: 10,
-                                    padding: 12,
-                                    marginBottom: 12,
-                                    borderWidth: 1,
-                                    borderColor: theme.colors.box.warning.border,
-                                }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
-                                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginRight: 16 }}>
-                                            <Ionicons name="warning" size={16} color={theme.colors.warning} />
-                                            <Text style={{ fontSize: 13, fontWeight: '600', color: theme.colors.text, ...Typography.default('semiBold') }}>
-                                                Claude CLI Not Detected
-                                            </Text>
-                                            <View style={{ flex: 1, minWidth: 20 }} />
-                                            <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                Don't show this popup for
-                                            </Text>
-                                            <Pressable
-                                                onPress={() => handleCLIBannerDismiss('claude', 'machine')}
-                                                style={{
-                                                    borderRadius: 4,
-                                                    borderWidth: 1,
-                                                    borderColor: theme.colors.textSecondary,
-                                                    paddingHorizontal: 8,
-                                                    paddingVertical: 3,
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                    this machine
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                                <Text style={{ fontSize: 11, color: cliAvailability.claude ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
+                                                    {cliAvailability.claude ? '✓' : '✗'}
                                                 </Text>
-                                            </Pressable>
-                                            <Pressable
-                                                onPress={() => handleCLIBannerDismiss('claude', 'global')}
-                                                style={{
-                                                    borderRadius: 4,
-                                                    borderWidth: 1,
-                                                    borderColor: theme.colors.textSecondary,
-                                                    paddingHorizontal: 8,
-                                                    paddingVertical: 3,
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                    any machine
+                                                <Text style={{ fontSize: 11, color: cliAvailability.claude ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
+                                                    claude
                                                 </Text>
-                                            </Pressable>
-                                        </View>
-                                        <Pressable
-                                            onPress={() => handleCLIBannerDismiss('claude', 'temporary')}
-                                            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                                        >
-                                            <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
-                                        </Pressable>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
-                                        <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                            Install: npm install -g @anthropic-ai/claude-code •
-                                        </Text>
-                                        <Pressable onPress={() => {
-                                            if (Platform.OS === 'web') {
-                                                window.open('https://docs.anthropic.com/en/docs/claude-code/installation', '_blank');
-                                            }
-                                        }}>
-                                            <Text style={{ fontSize: 11, color: theme.colors.textLink, ...Typography.default() }}>
-                                                View Installation Guide →
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            )}
-
-                            {selectedMachineId && cliAvailability.codex === false && !isWarningDismissed('codex') && !hiddenBanners.codex && (
-                                <View style={{
-                                    backgroundColor: theme.colors.box.warning.background,
-                                    borderRadius: 10,
-                                    padding: 12,
-                                    marginBottom: 12,
-                                    borderWidth: 1,
-                                    borderColor: theme.colors.box.warning.border,
-                                }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
-                                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginRight: 16 }}>
-                                            <Ionicons name="warning" size={16} color={theme.colors.warning} />
-                                            <Text style={{ fontSize: 13, fontWeight: '600', color: theme.colors.text, ...Typography.default('semiBold') }}>
-                                                Codex CLI Not Detected
-                                            </Text>
-                                            <View style={{ flex: 1, minWidth: 20 }} />
-                                            <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                Don't show this popup for
-                                            </Text>
-                                            <Pressable
-                                                onPress={() => handleCLIBannerDismiss('codex', 'machine')}
-                                                style={{
-                                                    borderRadius: 4,
-                                                    borderWidth: 1,
-                                                    borderColor: theme.colors.textSecondary,
-                                                    paddingHorizontal: 8,
-                                                    paddingVertical: 3,
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                    this machine
+                                            </View>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                                <Text style={{ fontSize: 11, color: cliAvailability.codex ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
+                                                    {cliAvailability.codex ? '✓' : '✗'}
                                                 </Text>
-                                            </Pressable>
-                                            <Pressable
-                                                onPress={() => handleCLIBannerDismiss('codex', 'global')}
-                                                style={{
-                                                    borderRadius: 4,
-                                                    borderWidth: 1,
-                                                    borderColor: theme.colors.textSecondary,
-                                                    paddingHorizontal: 8,
-                                                    paddingVertical: 3,
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                    any machine
+                                                <Text style={{ fontSize: 11, color: cliAvailability.codex ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
+                                                    codex
                                                 </Text>
-                                            </Pressable>
-                                        </View>
-                                        <Pressable
-                                            onPress={() => handleCLIBannerDismiss('codex', 'temporary')}
-                                            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                                        >
-                                            <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
-                                        </Pressable>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
-                                        <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                            Install: npm install -g codex-cli •
-                                        </Text>
-                                        <Pressable onPress={() => {
-                                            if (Platform.OS === 'web') {
-                                                window.open('https://github.com/openai/openai-codex', '_blank');
-                                            }
-                                        }}>
-                                            <Text style={{ fontSize: 11, color: theme.colors.textLink, ...Typography.default() }}>
-                                                View Installation Guide →
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            )}
-
-                            {selectedMachineId && cliAvailability.gemini === false && experimentsEnabled && !isWarningDismissed('gemini') && !hiddenBanners.gemini && (
-                                <View style={{
-                                    backgroundColor: theme.colors.box.warning.background,
-                                    borderRadius: 10,
-                                    padding: 12,
-                                    marginBottom: 12,
-                                    borderWidth: 1,
-                                    borderColor: theme.colors.box.warning.border,
-                                }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
-                                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginRight: 16 }}>
-                                            <Ionicons name="warning" size={16} color={theme.colors.warning} />
-                                            <Text style={{ fontSize: 13, fontWeight: '600', color: theme.colors.text, ...Typography.default('semiBold') }}>
-                                                Gemini CLI Not Detected
-                                            </Text>
-                                            <View style={{ flex: 1, minWidth: 20 }} />
-                                            <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                Don't show this popup for
-                                            </Text>
-                                            <Pressable
-                                                onPress={() => handleCLIBannerDismiss('gemini', 'machine')}
-                                                style={{
-                                                    borderRadius: 4,
-                                                    borderWidth: 1,
-                                                    borderColor: theme.colors.textSecondary,
-                                                    paddingHorizontal: 8,
-                                                    paddingVertical: 3,
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                    this machine
-                                                </Text>
-                                            </Pressable>
-                                            <Pressable
-                                                onPress={() => handleCLIBannerDismiss('gemini', 'global')}
-                                                style={{
-                                                    borderRadius: 4,
-                                                    borderWidth: 1,
-                                                    borderColor: theme.colors.textSecondary,
-                                                    paddingHorizontal: 8,
-                                                    paddingVertical: 3,
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                                    any machine
-                                                </Text>
-                                            </Pressable>
-                                        </View>
-                                        <Pressable
-                                            onPress={() => handleCLIBannerDismiss('gemini', 'temporary')}
-                                            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                                        >
-                                            <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
-                                        </Pressable>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
-                                        <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
-                                            Install gemini CLI if available •
-                                        </Text>
-                                        <Pressable onPress={() => {
-                                            if (Platform.OS === 'web') {
-                                                window.open('https://ai.google.dev/gemini-api/docs/get-started', '_blank');
-                                            }
-                                        }}>
-                                            <Text style={{ fontSize: 11, color: theme.colors.textLink, ...Typography.default() }}>
-                                                View Gemini Docs →
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            )}
-
-                            {/* Custom profiles - show first */}
-                            {profiles.map((profile) => {
-                                const availability = isProfileAvailable(profile);
-
-                                return (
-                                    <Pressable
-                                        key={profile.id}
-                                        style={[
-                                            styles.profileListItem,
-                                            selectedProfileId === profile.id && styles.profileListItemSelected,
-                                            !availability.available && { opacity: 0.5 }
-                                        ]}
-                                        onPress={() => availability.available && selectProfile(profile.id)}
-                                        disabled={!availability.available}
-                                    >
-                                        <View style={[styles.profileIcon, { backgroundColor: theme.colors.button.secondary.tint }]}>
-                                            <Text style={{ fontSize: 16, color: theme.colors.button.primary.tint, ...Typography.default() }}>
-                                                {profile.compatibility.claude && profile.compatibility.codex ? '✳꩜' :
-                                                 profile.compatibility.claude ? '✳' : '꩜'}
-                                            </Text>
-                                        </View>
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={styles.profileListName}>{profile.name}</Text>
-                                            <Text style={styles.profileListDetails}>
-                                                {getProfileSubtitle(profile)}
-                                            </Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                                            {selectedProfileId === profile.id && (
-                                                <Ionicons name="checkmark-circle" size={20} color={theme.colors.text} />
+                                            </View>
+                                            {experimentsEnabled && (
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                                    <Text style={{ fontSize: 11, color: cliAvailability.gemini ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
+                                                        {cliAvailability.gemini ? '✓' : '✗'}
+                                                    </Text>
+                                                    <Text style={{ fontSize: 11, color: cliAvailability.gemini ? theme.colors.success : theme.colors.textDestructive, ...Typography.default() }}>
+                                                        gemini
+                                                    </Text>
+                                                </View>
                                             )}
-                                            <Pressable
-                                                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                                                onPress={(e) => {
-                                                    e.stopPropagation();
-                                                    handleDeleteProfile(profile);
-                                                }}
-                                            >
-                                                <Ionicons name="trash-outline" size={20} color={theme.colors.deleteAction} />
-                                            </Pressable>
-                                            <Pressable
-                                                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                                                onPress={(e) => {
-                                                    e.stopPropagation();
-                                                    handleDuplicateProfile(profile);
-                                                }}
-                                            >
-                                                <Ionicons name="copy-outline" size={20} color={theme.colors.button.secondary.tint} />
-                                            </Pressable>
-                                            <Pressable
-                                                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                                                onPress={(e) => {
-                                                    e.stopPropagation();
-                                                    handleEditProfile(profile);
-                                                }}
-                                            >
-                                                <Ionicons name="create-outline" size={20} color={theme.colors.button.secondary.tint} />
-                                            </Pressable>
                                         </View>
-                                    </Pressable>
-                                );
-                            })}
+                                    </View>
+                                )}
 
-                            {/* Built-in profiles - show after custom */}
-                            {DEFAULT_PROFILES.map((profileDisplay) => {
-                                const profile = getBuiltInProfile(profileDisplay.id);
-                                if (!profile) return null;
-
-                                const availability = isProfileAvailable(profile);
-
-                                return (
-                                    <Pressable
-                                        key={profile.id}
-                                        style={[
-                                            styles.profileListItem,
-                                            selectedProfileId === profile.id && styles.profileListItemSelected,
-                                            !availability.available && { opacity: 0.5 }
-                                        ]}
-                                        onPress={() => availability.available && selectProfile(profile.id)}
-                                        disabled={!availability.available}
-                                    >
-                                        <View style={styles.profileIcon}>
-                                            <Text style={{ fontSize: 16, color: theme.colors.button.primary.tint, ...Typography.default() }}>
-                                                {profile.compatibility.claude && profile.compatibility.codex ? '✳꩜' :
-                                                 profile.compatibility.claude ? '✳' : '꩜'}
-                                            </Text>
-                                        </View>
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={styles.profileListName}>{profile.name}</Text>
-                                            <Text style={styles.profileListDetails}>
-                                                {getProfileSubtitle(profile)}
-                                            </Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                                            {selectedProfileId === profile.id && (
-                                                <Ionicons name="checkmark-circle" size={20} color={theme.colors.text} />
-                                            )}
-                                            <Pressable
-                                                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                                                onPress={(e) => {
-                                                    e.stopPropagation();
-                                                    handleEditProfile(profile);
-                                                }}
-                                            >
-                                                <Ionicons name="create-outline" size={20} color={theme.colors.button.secondary.tint} />
-                                            </Pressable>
-                                        </View>
-                                    </Pressable>
-                                );
-                            })}
-
-                            {/* Profile Action Buttons */}
-                            <View style={{ flexDirection: 'row', gap: 8, marginBottom: 12 }}>
-                                <Pressable
-                                    style={[styles.addProfileButton, { flex: 1 }]}
-                                    onPress={handleAddProfile}
-                                >
-                                    <Ionicons name="add-circle-outline" size={20} color={theme.colors.button.secondary.tint} />
-                                    <Text style={styles.addProfileButtonText}>
-                                        Add
-                                    </Text>
-                                </Pressable>
-                                <Pressable
-                                    style={[
-                                        styles.addProfileButton,
-                                        { flex: 1 },
-                                        !selectedProfile && { opacity: 0.4 }
-                                    ]}
-                                    onPress={() => selectedProfile && handleDuplicateProfile(selectedProfile)}
-                                    disabled={!selectedProfile}
-                                >
-                                    <Ionicons name="copy-outline" size={20} color={theme.colors.button.secondary.tint} />
-                                    <Text style={styles.addProfileButtonText}>
-                                        Duplicate
-                                    </Text>
-                                </Pressable>
-                                <Pressable
-                                    style={[
-                                        styles.addProfileButton,
-                                        { flex: 1 },
-                                        (!selectedProfile || selectedProfile.isBuiltIn) && { opacity: 0.4 }
-                                    ]}
-                                    onPress={() => selectedProfile && !selectedProfile.isBuiltIn && handleDeleteProfile(selectedProfile)}
-                                    disabled={!selectedProfile || selectedProfile.isBuiltIn}
-                                >
-                                    <Ionicons name="trash-outline" size={20} color={theme.colors.deleteAction} />
-                                    <Text style={[styles.addProfileButtonText, { color: theme.colors.deleteAction }]}>
-                                        Delete
-                                    </Text>
-                                </Pressable>
-                            </View>
-
-                            {/* Section 2: Machine Selection */}
-                            <View ref={machineSectionRef}>
+                                {/* Section 1: Profile Management */}
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8, marginTop: 12 }}>
-                                    <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>2.</Text>
-                                    <Ionicons name="desktop-outline" size={18} color={theme.colors.text} />
-                                    <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>Select Machine</Text>
+                                    <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>1.</Text>
+                                    <Ionicons name="person-outline" size={18} color={theme.colors.text} />
+                                    <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>Choose AI Profile</Text>
                                 </View>
-                            </View>
+                                <Text style={styles.sectionDescription}>
+                                    Choose which AI backend runs your session (Claude or Codex). Create custom profiles for alternative APIs.
+                                </Text>
 
-                            <View style={{ marginBottom: 24 }}>
-                                <SearchableListSelector<typeof machines[0]>
-                                    config={{
-                                    getItemId: (machine) => machine.id,
-                                    getItemTitle: (machine) => machine.metadata?.displayName || machine.metadata?.host || machine.id,
-                                    getItemSubtitle: undefined,
-                                    getItemIcon: (machine) => (
-                                        <Ionicons
-                                            name="desktop-outline"
-                                            size={24}
-                                            color={theme.colors.textSecondary}
-                                        />
-                                    ),
-                                    getRecentItemIcon: (machine) => (
-                                        <Ionicons
-                                            name="time-outline"
-                                            size={24}
-                                            color={theme.colors.textSecondary}
-                                        />
-                                    ),
-                                    getItemStatus: (machine) => {
-                                        const offline = !isMachineOnline(machine);
-                                        return {
-                                            text: offline ? 'offline' : 'online',
-                                            color: offline ? theme.colors.status.disconnected : theme.colors.status.connected,
-                                            dotColor: offline ? theme.colors.status.disconnected : theme.colors.status.connected,
-                                            isPulsing: !offline,
-                                        };
-                                    },
-                                    formatForDisplay: (machine) => machine.metadata?.displayName || machine.metadata?.host || machine.id,
-                                    parseFromDisplay: (text) => {
-                                        return machines.find(m =>
-                                            m.metadata?.displayName === text || m.metadata?.host === text || m.id === text
-                                        ) || null;
-                                    },
-                                    filterItem: (machine, searchText) => {
-                                        const displayName = (machine.metadata?.displayName || '').toLowerCase();
-                                        const host = (machine.metadata?.host || '').toLowerCase();
-                                        const search = searchText.toLowerCase();
-                                        return displayName.includes(search) || host.includes(search);
-                                    },
-                                    searchPlaceholder: "Type to filter machines...",
-                                    recentSectionTitle: "Recent Machines",
-                                    favoritesSectionTitle: "Favorite Machines",
-                                    noItemsMessage: "No machines available",
-                                    showFavorites: true,
-                                    showRecent: true,
-                                    showSearch: true,
-                                    allowCustomInput: false,
-                                    compactItems: true,
-                                }}
-                                items={machines}
-                                recentItems={recentMachines}
-                                favoriteItems={machines.filter(m => favoriteMachines.includes(m.id))}
-                                selectedItem={selectedMachine || null}
-                                onSelect={(machine) => {
-                                    setSelectedMachineId(machine.id);
-                                    const bestPath = getRecentPathForMachine(machine.id, recentMachinePaths);
-                                    setSelectedPath(bestPath);
-                                }}
-                                onToggleFavorite={(machine) => {
-                                    const isInFavorites = favoriteMachines.includes(machine.id);
-                                    if (isInFavorites) {
-                                        setFavoriteMachines(favoriteMachines.filter(id => id !== machine.id));
-                                    } else {
-                                        setFavoriteMachines([...favoriteMachines, machine.id]);
-                                    }
-                                }}
-                                />
-                            </View>
+                                {/* Missing CLI Installation Banners */}
+                                {selectedMachineId && cliAvailability.claude === false && !isWarningDismissed('claude') && !hiddenBanners.claude && (
+                                    <View style={{
+                                        backgroundColor: theme.colors.box.warning.background,
+                                        borderRadius: 10,
+                                        padding: 12,
+                                        marginBottom: 12,
+                                        borderWidth: 1,
+                                        borderColor: theme.colors.box.warning.border,
+                                    }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
+                                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginRight: 16 }}>
+                                                <Ionicons name="warning" size={16} color={theme.colors.warning} />
+                                                <Text style={{ fontSize: 13, fontWeight: '600', color: theme.colors.text, ...Typography.default('semiBold') }}>
+                                                    Claude CLI Not Detected
+                                                </Text>
+                                                <View style={{ flex: 1, minWidth: 20 }} />
+                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                    Don't show this popup for
+                                                </Text>
+                                                <Pressable
+                                                    onPress={() => handleCLIBannerDismiss('claude', 'machine')}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        borderWidth: 1,
+                                                        borderColor: theme.colors.textSecondary,
+                                                        paddingHorizontal: 8,
+                                                        paddingVertical: 3,
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                        this machine
+                                                    </Text>
+                                                </Pressable>
+                                                <Pressable
+                                                    onPress={() => handleCLIBannerDismiss('claude', 'global')}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        borderWidth: 1,
+                                                        borderColor: theme.colors.textSecondary,
+                                                        paddingHorizontal: 8,
+                                                        paddingVertical: 3,
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                        any machine
+                                                    </Text>
+                                                </Pressable>
+                                            </View>
+                                            <Pressable
+                                                onPress={() => handleCLIBannerDismiss('claude', 'temporary')}
+                                                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                                            >
+                                                <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
+                                            </Pressable>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
+                                            <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                Install: npm install -g @anthropic-ai/claude-code •
+                                            </Text>
+                                            <Pressable onPress={() => {
+                                                if (Platform.OS === 'web') {
+                                                    window.open('https://docs.anthropic.com/en/docs/claude-code/installation', '_blank');
+                                                }
+                                            }}>
+                                                <Text style={{ fontSize: 11, color: theme.colors.textLink, ...Typography.default() }}>
+                                                    View Installation Guide →
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                )}
 
-                            {/* Section 3: Working Directory */}
-                            <View ref={pathSectionRef}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8, marginTop: 12 }}>
-                                    <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>3.</Text>
-                                    <Ionicons name="folder-outline" size={18} color={theme.colors.text} />
-                                    <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>Select Working Directory</Text>
-                                </View>
-                            </View>
+                                {selectedMachineId && cliAvailability.codex === false && !isWarningDismissed('codex') && !hiddenBanners.codex && (
+                                    <View style={{
+                                        backgroundColor: theme.colors.box.warning.background,
+                                        borderRadius: 10,
+                                        padding: 12,
+                                        marginBottom: 12,
+                                        borderWidth: 1,
+                                        borderColor: theme.colors.box.warning.border,
+                                    }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
+                                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginRight: 16 }}>
+                                                <Ionicons name="warning" size={16} color={theme.colors.warning} />
+                                                <Text style={{ fontSize: 13, fontWeight: '600', color: theme.colors.text, ...Typography.default('semiBold') }}>
+                                                    Codex CLI Not Detected
+                                                </Text>
+                                                <View style={{ flex: 1, minWidth: 20 }} />
+                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                    Don't show this popup for
+                                                </Text>
+                                                <Pressable
+                                                    onPress={() => handleCLIBannerDismiss('codex', 'machine')}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        borderWidth: 1,
+                                                        borderColor: theme.colors.textSecondary,
+                                                        paddingHorizontal: 8,
+                                                        paddingVertical: 3,
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                        this machine
+                                                    </Text>
+                                                </Pressable>
+                                                <Pressable
+                                                    onPress={() => handleCLIBannerDismiss('codex', 'global')}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        borderWidth: 1,
+                                                        borderColor: theme.colors.textSecondary,
+                                                        paddingHorizontal: 8,
+                                                        paddingVertical: 3,
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                        any machine
+                                                    </Text>
+                                                </Pressable>
+                                            </View>
+                                            <Pressable
+                                                onPress={() => handleCLIBannerDismiss('codex', 'temporary')}
+                                                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                                            >
+                                                <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
+                                            </Pressable>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
+                                            <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                Install: npm install -g codex-cli •
+                                            </Text>
+                                            <Pressable onPress={() => {
+                                                if (Platform.OS === 'web') {
+                                                    window.open('https://github.com/openai/openai-codex', '_blank');
+                                                }
+                                            }}>
+                                                <Text style={{ fontSize: 11, color: theme.colors.textLink, ...Typography.default() }}>
+                                                    View Installation Guide →
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                )}
 
-                            <View style={{ marginBottom: 24 }}>
-                                <SearchableListSelector<string>
-                                    config={{
-                                    getItemId: (path) => path,
-                                    getItemTitle: (path) => formatPathRelativeToHome(path, selectedMachine?.metadata?.homeDir),
-                                    getItemSubtitle: undefined,
-                                    getItemIcon: (path) => (
-                                        <Ionicons
-                                            name="folder-outline"
-                                            size={24}
-                                            color={theme.colors.textSecondary}
-                                        />
-                                    ),
-                                    getRecentItemIcon: (path) => (
-                                        <Ionicons
-                                            name="time-outline"
-                                            size={24}
-                                            color={theme.colors.textSecondary}
-                                        />
-                                    ),
-                                    getFavoriteItemIcon: (path) => (
-                                        <Ionicons
-                                            name={path === selectedMachine?.metadata?.homeDir ? "home-outline" : "star-outline"}
-                                            size={24}
-                                            color={theme.colors.textSecondary}
-                                        />
-                                    ),
-                                    canRemoveFavorite: (path) => path !== selectedMachine?.metadata?.homeDir,
-                                    formatForDisplay: (path) => formatPathRelativeToHome(path, selectedMachine?.metadata?.homeDir),
-                                    parseFromDisplay: (text) => {
-                                        if (selectedMachine?.metadata?.homeDir) {
-                                            return resolveAbsolutePath(text, selectedMachine.metadata.homeDir);
-                                        }
-                                        return null;
-                                    },
-                                    filterItem: (path, searchText) => {
-                                        const displayPath = formatPathRelativeToHome(path, selectedMachine?.metadata?.homeDir);
-                                        return displayPath.toLowerCase().includes(searchText.toLowerCase());
-                                    },
-                                    searchPlaceholder: "Type to filter or enter custom directory...",
-                                    recentSectionTitle: "Recent Directories",
-                                    favoritesSectionTitle: "Favorite Directories",
-                                    noItemsMessage: "No recent directories",
-                                    showFavorites: true,
-                                    showRecent: true,
-                                    showSearch: true,
-                                    allowCustomInput: true,
-                                    compactItems: true,
-                                }}
-                                items={recentPaths}
-                                recentItems={recentPaths}
-                                favoriteItems={(() => {
-                                    if (!selectedMachine?.metadata?.homeDir) return [];
-                                    const homeDir = selectedMachine.metadata.homeDir;
-                                    // Include home directory plus user favorites
-                                    return [homeDir, ...favoriteDirectories.map(fav => resolveAbsolutePath(fav, homeDir))];
-                                })()}
-                                selectedItem={selectedPath}
-                                onSelect={(path) => {
-                                    setSelectedPath(path);
-                                }}
-                                onToggleFavorite={(path) => {
-                                    const homeDir = selectedMachine?.metadata?.homeDir;
-                                    if (!homeDir) return;
+                                {selectedMachineId && cliAvailability.gemini === false && experimentsEnabled && !isWarningDismissed('gemini') && !hiddenBanners.gemini && (
+                                    <View style={{
+                                        backgroundColor: theme.colors.box.warning.background,
+                                        borderRadius: 10,
+                                        padding: 12,
+                                        marginBottom: 12,
+                                        borderWidth: 1,
+                                        borderColor: theme.colors.box.warning.border,
+                                    }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
+                                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginRight: 16 }}>
+                                                <Ionicons name="warning" size={16} color={theme.colors.warning} />
+                                                <Text style={{ fontSize: 13, fontWeight: '600', color: theme.colors.text, ...Typography.default('semiBold') }}>
+                                                    Gemini CLI Not Detected
+                                                </Text>
+                                                <View style={{ flex: 1, minWidth: 20 }} />
+                                                <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                    Don't show this popup for
+                                                </Text>
+                                                <Pressable
+                                                    onPress={() => handleCLIBannerDismiss('gemini', 'machine')}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        borderWidth: 1,
+                                                        borderColor: theme.colors.textSecondary,
+                                                        paddingHorizontal: 8,
+                                                        paddingVertical: 3,
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                        this machine
+                                                    </Text>
+                                                </Pressable>
+                                                <Pressable
+                                                    onPress={() => handleCLIBannerDismiss('gemini', 'global')}
+                                                    style={{
+                                                        borderRadius: 4,
+                                                        borderWidth: 1,
+                                                        borderColor: theme.colors.textSecondary,
+                                                        paddingHorizontal: 8,
+                                                        paddingVertical: 3,
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 10, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                        any machine
+                                                    </Text>
+                                                </Pressable>
+                                            </View>
+                                            <Pressable
+                                                onPress={() => handleCLIBannerDismiss('gemini', 'temporary')}
+                                                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                                            >
+                                                <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
+                                            </Pressable>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
+                                            <Text style={{ fontSize: 11, color: theme.colors.textSecondary, ...Typography.default() }}>
+                                                Install gemini CLI if available •
+                                            </Text>
+                                            <Pressable onPress={() => {
+                                                if (Platform.OS === 'web') {
+                                                    window.open('https://ai.google.dev/gemini-api/docs/get-started', '_blank');
+                                                }
+                                            }}>
+                                                <Text style={{ fontSize: 11, color: theme.colors.textLink, ...Typography.default() }}>
+                                                    View Gemini Docs →
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                )}
 
-                                    // Don't allow removing home directory (handled by canRemoveFavorite)
-                                    if (path === homeDir) return;
+                                {/* Custom profiles - show first */}
+                                {profiles.map((profile) => {
+                                    const availability = isProfileAvailable(profile);
 
-                                    // Convert to relative format for storage
-                                    const relativePath = formatPathRelativeToHome(path, homeDir);
-
-                                    // Check if already in favorites
-                                    const isInFavorites = favoriteDirectories.some(fav =>
-                                        resolveAbsolutePath(fav, homeDir) === path
+                                    return (
+                                        <Pressable
+                                            key={profile.id}
+                                            style={[
+                                                styles.profileListItem,
+                                                selectedProfileId === profile.id && styles.profileListItemSelected,
+                                                !availability.available && { opacity: 0.5 }
+                                            ]}
+                                            onPress={() => availability.available && selectProfile(profile.id)}
+                                            disabled={!availability.available}
+                                        >
+                                            <View style={[styles.profileIcon, { backgroundColor: theme.colors.button.secondary.tint }]}>
+                                                <Text style={{ fontSize: 16, color: theme.colors.button.primary.tint, ...Typography.default() }}>
+                                                    {profile.compatibility.claude && profile.compatibility.codex ? '✳꩜' :
+                                                        profile.compatibility.claude ? '✳' : '꩜'}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                                <Text style={styles.profileListName}>{profile.name}</Text>
+                                                <Text style={styles.profileListDetails}>
+                                                    {getProfileSubtitle(profile)}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                                                {selectedProfileId === profile.id && (
+                                                    <Ionicons name="checkmark-circle" size={20} color={theme.colors.text} />
+                                                )}
+                                                <Pressable
+                                                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                                                    onPress={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDeleteProfile(profile);
+                                                    }}
+                                                >
+                                                    <Ionicons name="trash-outline" size={20} color={theme.colors.deleteAction} />
+                                                </Pressable>
+                                                <Pressable
+                                                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                                                    onPress={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDuplicateProfile(profile);
+                                                    }}
+                                                >
+                                                    <Ionicons name="copy-outline" size={20} color={theme.colors.button.secondary.tint} />
+                                                </Pressable>
+                                                <Pressable
+                                                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                                                    onPress={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEditProfile(profile);
+                                                    }}
+                                                >
+                                                    <Ionicons name="create-outline" size={20} color={theme.colors.button.secondary.tint} />
+                                                </Pressable>
+                                            </View>
+                                        </Pressable>
                                     );
+                                })}
 
-                                    if (isInFavorites) {
-                                        // Remove from favorites
-                                        setFavoriteDirectories(favoriteDirectories.filter(fav =>
-                                            resolveAbsolutePath(fav, homeDir) !== path
-                                        ));
-                                    } else {
-                                        // Add to favorites
-                                        setFavoriteDirectories([...favoriteDirectories, relativePath]);
-                                    }
-                                }}
-                                    context={{ homeDir: selectedMachine?.metadata?.homeDir }}
-                                />
-                            </View>
+                                {/* Built-in profiles - show after custom */}
+                                {DEFAULT_PROFILES.map((profileDisplay) => {
+                                    const profile = getBuiltInProfile(profileDisplay.id);
+                                    if (!profile) return null;
 
-                            {/* Section 4: Permission Mode */}
-                            <View ref={permissionSectionRef}>
-                                <Text style={styles.sectionHeader}>4. Permission Mode</Text>
-                            </View>
-                            <ItemGroup title="">
-                                {(agentType === 'codex'
-                                    ? [
-                                        { value: 'default' as PermissionMode, label: 'Default', description: 'Ask for permissions', icon: 'shield-outline' },
-                                        { value: 'read-only' as PermissionMode, label: 'Read Only', description: 'Read-only mode', icon: 'eye-outline' },
-                                        { value: 'safe-yolo' as PermissionMode, label: 'Safe YOLO', description: 'Workspace write with approval', icon: 'shield-checkmark-outline' },
-                                        { value: 'yolo' as PermissionMode, label: 'YOLO', description: 'Full access, skip permissions', icon: 'flash-outline' },
-                                    ]
-                                    : [
-                                        { value: 'default' as PermissionMode, label: 'Default', description: 'Ask for permissions', icon: 'shield-outline' },
-                                        { value: 'acceptEdits' as PermissionMode, label: 'Accept Edits', description: 'Auto-approve edits', icon: 'checkmark-outline' },
-                                        { value: 'plan' as PermissionMode, label: 'Plan', description: 'Plan before executing', icon: 'list-outline' },
-                                        { value: 'bypassPermissions' as PermissionMode, label: 'Bypass Permissions', description: 'Skip all permissions', icon: 'flash-outline' },
-                                    ]
-                                ).map((option, index, array) => (
-                                    <Item
-                                        key={option.value}
-                                        title={option.label}
-                                        subtitle={option.description}
-                                        leftElement={
-                                            <Ionicons
-                                                name={option.icon as any}
-                                                size={24}
-                                                color={permissionMode === option.value ? theme.colors.button.primary.tint : theme.colors.textSecondary}
-                                            />
-                                        }
-                                        rightElement={permissionMode === option.value ? (
-                                            <Ionicons
-                                                name="checkmark-circle"
-                                                size={20}
-                                                color={theme.colors.button.primary.tint}
-                                            />
-                                        ) : null}
-                                        onPress={() => setPermissionMode(option.value)}
-                                        showChevron={false}
-                                        selected={permissionMode === option.value}
-                                        showDivider={index < array.length - 1}
-                                        style={permissionMode === option.value ? {
-                                            borderWidth: 2,
-                                            borderColor: theme.colors.button.primary.tint,
-                                            borderRadius: Platform.select({ ios: 10, default: 16 }),
-                                        } : undefined}
-                                    />
-                                ))}
-                            </ItemGroup>
+                                    const availability = isProfileAvailable(profile);
 
-                            {/* Section 5: Advanced Options (Collapsible) */}
-                            {experimentsEnabled && (
-                                <>
+                                    return (
+                                        <Pressable
+                                            key={profile.id}
+                                            style={[
+                                                styles.profileListItem,
+                                                selectedProfileId === profile.id && styles.profileListItemSelected,
+                                                !availability.available && { opacity: 0.5 }
+                                            ]}
+                                            onPress={() => availability.available && selectProfile(profile.id)}
+                                            disabled={!availability.available}
+                                        >
+                                            <View style={styles.profileIcon}>
+                                                <Text style={{ fontSize: 16, color: theme.colors.button.primary.tint, ...Typography.default() }}>
+                                                    {profile.compatibility.claude && profile.compatibility.codex ? '✳꩜' :
+                                                        profile.compatibility.claude ? '✳' : '꩜'}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                                <Text style={styles.profileListName}>{profile.name}</Text>
+                                                <Text style={styles.profileListDetails}>
+                                                    {getProfileSubtitle(profile)}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                                                {selectedProfileId === profile.id && (
+                                                    <Ionicons name="checkmark-circle" size={20} color={theme.colors.text} />
+                                                )}
+                                                <Pressable
+                                                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                                                    onPress={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEditProfile(profile);
+                                                    }}
+                                                >
+                                                    <Ionicons name="create-outline" size={20} color={theme.colors.button.secondary.tint} />
+                                                </Pressable>
+                                            </View>
+                                        </Pressable>
+                                    );
+                                })}
+
+                                {/* Profile Action Buttons */}
+                                <View style={{ flexDirection: 'row', gap: 8, marginBottom: 12 }}>
                                     <Pressable
-                                        style={styles.advancedHeader}
-                                        onPress={() => setShowAdvanced(!showAdvanced)}
+                                        style={[styles.addProfileButton, { flex: 1 }]}
+                                        onPress={handleAddProfile}
                                     >
-                                        <Text style={styles.advancedHeaderText}>Advanced Options</Text>
-                                        <Ionicons
-                                            name={showAdvanced ? "chevron-up" : "chevron-down"}
-                                            size={20}
-                                            color={theme.colors.text}
-                                        />
+                                        <Ionicons name="add-circle-outline" size={20} color={theme.colors.button.secondary.tint} />
+                                        <Text style={styles.addProfileButtonText}>
+                                            Add
+                                        </Text>
                                     </Pressable>
+                                    <Pressable
+                                        style={[
+                                            styles.addProfileButton,
+                                            { flex: 1 },
+                                            !selectedProfile && { opacity: 0.4 }
+                                        ]}
+                                        onPress={() => selectedProfile && handleDuplicateProfile(selectedProfile)}
+                                        disabled={!selectedProfile}
+                                    >
+                                        <Ionicons name="copy-outline" size={20} color={theme.colors.button.secondary.tint} />
+                                        <Text style={styles.addProfileButtonText}>
+                                            Duplicate
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable
+                                        style={[
+                                            styles.addProfileButton,
+                                            { flex: 1 },
+                                            (!selectedProfile || selectedProfile.isBuiltIn) && { opacity: 0.4 }
+                                        ]}
+                                        onPress={() => selectedProfile && !selectedProfile.isBuiltIn && handleDeleteProfile(selectedProfile)}
+                                        disabled={!selectedProfile || selectedProfile.isBuiltIn}
+                                    >
+                                        <Ionicons name="trash-outline" size={20} color={theme.colors.deleteAction} />
+                                        <Text style={[styles.addProfileButtonText, { color: theme.colors.deleteAction }]}>
+                                            Delete
+                                        </Text>
+                                    </Pressable>
+                                </View>
 
-                                    {showAdvanced && (
-                                        <View style={{ marginBottom: 12 }}>
-                                            <SessionTypeSelector
-                                                value={sessionType}
-                                                onChange={setSessionType}
+                                {/* Section 2: Machine Selection */}
+                                <View ref={machineSectionRef}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8, marginTop: 12 }}>
+                                        <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>2.</Text>
+                                        <Ionicons name="desktop-outline" size={18} color={theme.colors.text} />
+                                        <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>Select Machine</Text>
+                                    </View>
+                                </View>
+
+                                <View style={{ marginBottom: 24 }}>
+                                    <SearchableListSelector<typeof machines[0]>
+                                        config={{
+                                            getItemId: (machine) => machine.id,
+                                            getItemTitle: (machine) => machine.metadata?.displayName || machine.metadata?.host || machine.id,
+                                            getItemSubtitle: undefined,
+                                            getItemIcon: (machine) => (
+                                                <Ionicons
+                                                    name="desktop-outline"
+                                                    size={24}
+                                                    color={theme.colors.textSecondary}
+                                                />
+                                            ),
+                                            getRecentItemIcon: (machine) => (
+                                                <Ionicons
+                                                    name="time-outline"
+                                                    size={24}
+                                                    color={theme.colors.textSecondary}
+                                                />
+                                            ),
+                                            getItemStatus: (machine) => {
+                                                const offline = !isMachineOnline(machine);
+                                                return {
+                                                    text: offline ? 'offline' : 'online',
+                                                    color: offline ? theme.colors.status.disconnected : theme.colors.status.connected,
+                                                    dotColor: offline ? theme.colors.status.disconnected : theme.colors.status.connected,
+                                                    isPulsing: !offline,
+                                                };
+                                            },
+                                            formatForDisplay: (machine) => machine.metadata?.displayName || machine.metadata?.host || machine.id,
+                                            parseFromDisplay: (text) => {
+                                                return machines.find(m =>
+                                                    m.metadata?.displayName === text || m.metadata?.host === text || m.id === text
+                                                ) || null;
+                                            },
+                                            filterItem: (machine, searchText) => {
+                                                const displayName = (machine.metadata?.displayName || '').toLowerCase();
+                                                const host = (machine.metadata?.host || '').toLowerCase();
+                                                const search = searchText.toLowerCase();
+                                                return displayName.includes(search) || host.includes(search);
+                                            },
+                                            searchPlaceholder: "Type to filter machines...",
+                                            recentSectionTitle: "Recent Machines",
+                                            favoritesSectionTitle: "Favorite Machines",
+                                            noItemsMessage: "No machines available",
+                                            showFavorites: true,
+                                            showRecent: true,
+                                            showSearch: true,
+                                            allowCustomInput: false,
+                                            compactItems: true,
+                                        }}
+                                        items={machines}
+                                        recentItems={recentMachines}
+                                        favoriteItems={machines.filter(m => favoriteMachines.includes(m.id))}
+                                        selectedItem={selectedMachine || null}
+                                        onSelect={(machine) => {
+                                            setSelectedMachineId(machine.id);
+                                            const bestPath = getRecentPathForMachine(machine.id, recentMachinePaths);
+                                            setSelectedPath(bestPath);
+                                        }}
+                                        onToggleFavorite={(machine) => {
+                                            const isInFavorites = favoriteMachines.includes(machine.id);
+                                            if (isInFavorites) {
+                                                setFavoriteMachines(favoriteMachines.filter(id => id !== machine.id));
+                                            } else {
+                                                setFavoriteMachines([...favoriteMachines, machine.id]);
+                                            }
+                                        }}
+                                    />
+                                </View>
+
+                                {/* Section 3: Working Directory */}
+                                <View ref={pathSectionRef}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8, marginTop: 12 }}>
+                                        <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>3.</Text>
+                                        <Ionicons name="folder-outline" size={18} color={theme.colors.text} />
+                                        <Text style={[styles.sectionHeader, { marginBottom: 0, marginTop: 0 }]}>Select Working Directory</Text>
+                                    </View>
+                                </View>
+
+                                <View style={{ marginBottom: 24 }}>
+                                    <SearchableListSelector<string>
+                                        config={{
+                                            getItemId: (path) => path,
+                                            getItemTitle: (path) => formatPathRelativeToHome(path, selectedMachine?.metadata?.homeDir),
+                                            getItemSubtitle: undefined,
+                                            getItemIcon: (path) => (
+                                                <Ionicons
+                                                    name="folder-outline"
+                                                    size={24}
+                                                    color={theme.colors.textSecondary}
+                                                />
+                                            ),
+                                            getRecentItemIcon: (path) => (
+                                                <Ionicons
+                                                    name="time-outline"
+                                                    size={24}
+                                                    color={theme.colors.textSecondary}
+                                                />
+                                            ),
+                                            getFavoriteItemIcon: (path) => (
+                                                <Ionicons
+                                                    name={path === selectedMachine?.metadata?.homeDir ? "home-outline" : "star-outline"}
+                                                    size={24}
+                                                    color={theme.colors.textSecondary}
+                                                />
+                                            ),
+                                            canRemoveFavorite: (path) => path !== selectedMachine?.metadata?.homeDir,
+                                            formatForDisplay: (path) => formatPathRelativeToHome(path, selectedMachine?.metadata?.homeDir),
+                                            parseFromDisplay: (text) => {
+                                                if (selectedMachine?.metadata?.homeDir) {
+                                                    return resolveAbsolutePath(text, selectedMachine.metadata.homeDir);
+                                                }
+                                                return null;
+                                            },
+                                            filterItem: (path, searchText) => {
+                                                const displayPath = formatPathRelativeToHome(path, selectedMachine?.metadata?.homeDir);
+                                                return displayPath.toLowerCase().includes(searchText.toLowerCase());
+                                            },
+                                            searchPlaceholder: "Type to filter or enter custom directory...",
+                                            recentSectionTitle: "Recent Directories",
+                                            favoritesSectionTitle: "Favorite Directories",
+                                            noItemsMessage: "No recent directories",
+                                            showFavorites: true,
+                                            showRecent: true,
+                                            showSearch: true,
+                                            allowCustomInput: true,
+                                            compactItems: true,
+                                        }}
+                                        items={recentPaths}
+                                        recentItems={recentPaths}
+                                        favoriteItems={(() => {
+                                            if (!selectedMachine?.metadata?.homeDir) return [];
+                                            const homeDir = selectedMachine.metadata.homeDir;
+                                            // Include home directory plus user favorites
+                                            return [homeDir, ...favoriteDirectories.map(fav => resolveAbsolutePath(fav, homeDir))];
+                                        })()}
+                                        selectedItem={selectedPath}
+                                        onSelect={(path) => {
+                                            setSelectedPath(path);
+                                        }}
+                                        onToggleFavorite={(path) => {
+                                            const homeDir = selectedMachine?.metadata?.homeDir;
+                                            if (!homeDir) return;
+
+                                            // Don't allow removing home directory (handled by canRemoveFavorite)
+                                            if (path === homeDir) return;
+
+                                            // Convert to relative format for storage
+                                            const relativePath = formatPathRelativeToHome(path, homeDir);
+
+                                            // Check if already in favorites
+                                            const isInFavorites = favoriteDirectories.some(fav =>
+                                                resolveAbsolutePath(fav, homeDir) === path
+                                            );
+
+                                            if (isInFavorites) {
+                                                // Remove from favorites
+                                                setFavoriteDirectories(favoriteDirectories.filter(fav =>
+                                                    resolveAbsolutePath(fav, homeDir) !== path
+                                                ));
+                                            } else {
+                                                // Add to favorites
+                                                setFavoriteDirectories([...favoriteDirectories, relativePath]);
+                                            }
+                                        }}
+                                        context={{ homeDir: selectedMachine?.metadata?.homeDir }}
+                                    />
+                                </View>
+
+                                {/* Section 4: Permission Mode */}
+                                <View ref={permissionSectionRef}>
+                                    <Text style={styles.sectionHeader}>4. Permission Mode</Text>
+                                </View>
+                                <ItemGroup title="">
+                                    {(agentType === 'codex'
+                                        ? [
+                                            { value: 'default' as PermissionMode, label: 'Default', description: 'Ask for permissions', icon: 'shield-outline' },
+                                            { value: 'read-only' as PermissionMode, label: 'Read Only', description: 'Read-only mode', icon: 'eye-outline' },
+                                            { value: 'safe-yolo' as PermissionMode, label: 'Safe YOLO', description: 'Workspace write with approval', icon: 'shield-checkmark-outline' },
+                                            { value: 'yolo' as PermissionMode, label: 'YOLO', description: 'Full access, skip permissions', icon: 'flash-outline' },
+                                        ]
+                                        : [
+                                            { value: 'default' as PermissionMode, label: 'Default', description: 'Ask for permissions', icon: 'shield-outline' },
+                                            { value: 'acceptEdits' as PermissionMode, label: 'Accept Edits', description: 'Auto-approve edits', icon: 'checkmark-outline' },
+                                            { value: 'plan' as PermissionMode, label: 'Plan', description: 'Plan before executing', icon: 'list-outline' },
+                                            { value: 'bypassPermissions' as PermissionMode, label: 'Bypass Permissions', description: 'Skip all permissions', icon: 'flash-outline' },
+                                        ]
+                                    ).map((option, index, array) => (
+                                        <Item
+                                            key={option.value}
+                                            title={option.label}
+                                            subtitle={option.description}
+                                            leftElement={
+                                                <Ionicons
+                                                    name={option.icon as any}
+                                                    size={24}
+                                                    color={permissionMode === option.value ? theme.colors.button.primary.tint : theme.colors.textSecondary}
+                                                />
+                                            }
+                                            rightElement={permissionMode === option.value ? (
+                                                <Ionicons
+                                                    name="checkmark-circle"
+                                                    size={20}
+                                                    color={theme.colors.button.primary.tint}
+                                                />
+                                            ) : null}
+                                            onPress={() => setPermissionMode(option.value)}
+                                            showChevron={false}
+                                            selected={permissionMode === option.value}
+                                            showDivider={index < array.length - 1}
+                                            style={permissionMode === option.value ? {
+                                                borderWidth: 2,
+                                                borderColor: theme.colors.button.primary.tint,
+                                                borderRadius: Platform.select({ ios: 10, default: 16 }),
+                                            } : undefined}
+                                        />
+                                    ))}
+                                </ItemGroup>
+
+                                {/* Section 5: Advanced Options (Collapsible) */}
+                                {experimentsEnabled && (
+                                    <>
+                                        <Pressable
+                                            style={styles.advancedHeader}
+                                            onPress={() => setShowAdvanced(!showAdvanced)}
+                                        >
+                                            <Text style={styles.advancedHeaderText}>Advanced Options</Text>
+                                            <Ionicons
+                                                name={showAdvanced ? "chevron-up" : "chevron-down"}
+                                                size={20}
+                                                color={theme.colors.text}
                                             />
-                                        </View>
-                                    )}
-                                </>
-                            )}
+                                        </Pressable>
+
+                                        {showAdvanced && (
+                                            <View style={{ marginBottom: 12 }}>
+                                                <SessionTypeSelector
+                                                    value={sessionType}
+                                                    onChange={setSessionType}
+                                                />
+                                            </View>
+                                        )}
+                                    </>
+                                )}
+                            </View>
                         </View>
                     </View>
-                </View>
                 </ScrollView>
 
                 {/* Section 5: AgentInput - Sticky at bottom */}

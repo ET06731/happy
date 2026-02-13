@@ -163,7 +163,7 @@ export default {
                 root: "./sources/app"
             },
             eas: {
-                projectId: "4558dd3d-cd5a-47cd-bad9-e591a241cc06"
+                projectId: "f7bbb738-65a2-4139-a0e7-d59c39d235bf"
             },
             app: {
                 postHogKey: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
@@ -172,6 +172,6 @@ export default {
                 revenueCatStripeKey: process.env.EXPO_PUBLIC_REVENUE_CAT_STRIPE
             }
         },
-        owner: "bulkacorp"
+
     }
 };

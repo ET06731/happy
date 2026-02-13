@@ -5,6 +5,8 @@
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
+    "android:apk": "eas build -p android --profile preview",
+    "android:apk:local": "eas build -p android --profile preview --local",
     "ios": "expo run:ios",
     "ios:connected-device": "yarn ios -d",
     "submit": "eas submit --platform ios",

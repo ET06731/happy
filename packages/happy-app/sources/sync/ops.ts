@@ -501,7 +501,7 @@ export async function sessionDelete(sessionId: string): Promise<{ success: boole
         const response = await apiSocket.request(`/v1/sessions/${sessionId}`, {
             method: 'DELETE'
         });
-        
+
         if (response.ok) {
             const result = await response.json();
             return { success: true };
