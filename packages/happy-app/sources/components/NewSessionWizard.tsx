@@ -513,7 +513,7 @@ interface NewSessionWizardProps {
     onComplete: (config: {
         sessionType: 'simple' | 'worktree';
         profileId: string | null;
-        agentType: 'claude' | 'codex';
+        agentType: 'claude' | 'codex' | 'gemini' | 'opencode';
         permissionMode: PermissionMode;
         modelMode: ModelMode;
         machineId: string;
@@ -542,8 +542,8 @@ export function NewSessionWizard({ onComplete, onCancel, initialPrompt = '' }: N
     // Wizard state
     const [currentStep, setCurrentStep] = useState<WizardStep>('profile');
     const [sessionType, setSessionType] = useState<'simple' | 'worktree'>('simple');
-    const [agentType, setAgentType] = useState<'claude' | 'codex'>(() => {
-        if (lastUsedAgent === 'claude' || lastUsedAgent === 'codex') {
+    const [agentType, setAgentType] = useState<'claude' | 'codex' | 'gemini' | 'opencode'>(() => {
+        if (lastUsedAgent === 'claude' || lastUsedAgent === 'codex' || lastUsedAgent === 'gemini' || lastUsedAgent === 'opencode') {
             return lastUsedAgent;
         }
         return 'claude';
@@ -659,6 +659,17 @@ export function NewSessionWizard({ onComplete, onCancel, initialPrompt = '' }: N
             },
             environmentVariables: [],
             compatibility: { claude: false, codex: true, gemini: false },
+            isBuiltIn: true,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            version: '1.0.0',
+        },
+        {
+            id: 'opencode-local',
+            name: 'OpenCode (Local)',
+            description: 'Local OpenCode agent',
+            environmentVariables: [],
+            compatibility: { claude: false, codex: false, gemini: false, opencode: true },
             isBuiltIn: true,
             createdAt: Date.now(),
             updatedAt: Date.now(),
@@ -879,6 +890,8 @@ export function NewSessionWizard({ onComplete, onCancel, initialPrompt = '' }: N
             setAgentType('claude');
         } else if (profile.compatibility.codex && !profile.compatibility.claude) {
             setAgentType('codex');
+        } else if (profile.compatibility.opencode) {
+            setAgentType('opencode');
         }
 
         // Get environment variables from profile (no user configuration)
@@ -907,6 +920,8 @@ export function NewSessionWizard({ onComplete, onCancel, initialPrompt = '' }: N
             setAgentType('claude');
         } else if (profile.compatibility.codex && !profile.compatibility.claude) {
             setAgentType('codex');
+        } else if (profile.compatibility.opencode) {
+            setAgentType('opencode');
         }
 
         // If profile needs configuration, go to profileConfig step
